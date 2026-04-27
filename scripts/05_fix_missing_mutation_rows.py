@@ -80,4 +80,4 @@ with open(output_file, "w") as f:
         else:
             f.write(f"({row});\n")
 
-print(f"🎉 mutation_fixed.sql created successfully!")
+print(f"🎉 06_load_mutation_table.sql created successfully!")
