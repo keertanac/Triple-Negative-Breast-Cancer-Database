@@ -1,0 +1,19 @@
+# Mac system files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Data files (don’t upload raw data)
+data/raw/
+*.csv
+*.tsv
+*.txt
+
+# Logs
+*.log
+
+# Virtual environments
+venv/
+.env
