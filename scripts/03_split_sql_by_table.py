@@ -1,7 +1,7 @@
 import re
 import os
 
-input_file = "/Users/keertanachagari/Downloads/load_data.sql"
+input_file = "/Users/keertanachagari/Downloads/02_load_full_database.sql"
 output_dir = "/Users/keertanachagari/Downloads/split_sql"
 
 # Create output folder
