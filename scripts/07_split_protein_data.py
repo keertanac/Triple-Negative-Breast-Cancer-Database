@@ -1,7 +1,7 @@
 import re
 
-input_file = "/Users/keertanachagari/DB_project/2_split_sql/protein_quant.sql"
-output_file = "/Users/keertanachagari/DB_project/2_split_sql/protein_quant.sql"
+input_file = "/Users/keertanachagari/DB_project/split_sql/protein_quant.sql"
+output_file = "/Users/keertanachagari/DB_project/split_sql/protein_quant.sql"
 BATCH_SIZE = 500
 
 with open(input_file, "r") as f:
