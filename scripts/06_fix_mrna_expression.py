@@ -3,7 +3,7 @@ import re
 # --- File paths (update if needed) ---
 GENE_SQL    = "/Users/keertanachagari/DB_project/2_split_sql/03_load_gene_table.sql.sql"
 INPUT_SQL   = "/Users/keertanachagari/DB_projecft/2_split_sql/mrna_expression.sql"
-OUTPUT_SQL  = "/Users/keertanachagari/DB_project/2_split_sql/06_load_mutation_table.sql"
+OUTPUT_SQL  = "/Users/keertanachagari/DB_project/2_split_sql/07_load_mrna_expression.sql"
 BATCH_SIZE  = 1000
 
 # Step 1: Parse valid hugo_symbols from gene_deduped.sql
