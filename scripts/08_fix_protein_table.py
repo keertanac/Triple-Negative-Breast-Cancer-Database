@@ -1,9 +1,9 @@
 import re
 
 # --- File paths (update these if needed) ---
-GENE_SQL = "gene_deduped.sql"
-PROTEIN_SQL = "protein_quant_corrected.sql"
-OUTPUT_SQL = "protein_quant_filtered.sql"
+GENE_SQL = "03_load_gene_table.sql"
+PROTEIN_SQL = "08_fixed_protein_load.sql"
+OUTPUT_SQL = "09_load_protein_quant_table.sql"
 
 # Step 1: Parse all valid hugo_symbols from gene_deduped.sql
 valid_genes = set()
