@@ -1,0 +1,60 @@
+PATIENT_ID	RACE
+NTN016	Caucasian
+NTN007	African American
+NTN069	Caucasian
+H36960.019	Caucasian
+NTN052	Caucasian
+NTN072	African American
+NTN085	Caucasian
+NTN067	Caucasian
+NTN025	African American
+NTN040	Caucasian
+NTN056	Caucasian
+NTN084	Caucasian
+NTN054	Caucasian
+NTN046	Caucasian
+NTN011	Caucasian
+NTN021	African American
+H36960.009	Caucasian
+NTN042	African American
+NTN081	Caucasian
+NTN087	African American
+NTN012	Caucasian
+NTN050	Caucasian
+NTN014	Caucasian
+NTN057	Caucasian
+NTN083	Caucasian
+NTN089	Caucasian
+NTN005	Caucasian
+NTN075	Caucasian
+NTN029	African American
+NTN063	Caucasian
+NTN038	Caucasian
+NTN023	Caucasian
+NTN080	Other
+NTN059	African American
+H36960.018	Other
+NTN049	Caucasian
+NTN006	African American
+NTN020	Caucasian
+NTN031	Caucasian
+NTN044	Caucasian
+NTN078	Caucasian
+NTN017	Caucasian
+NTN062	African American
+H36960.002	Caucasian
+H36960.008	Caucasian
+NTN039	African American
+NTN060	Caucasian
+NTN074	Caucasian
+NTN009	African American
+NTN022	Caucasian
+NTN033	Caucasian
+NTN058	Caucasian
+H36960.023	Caucasian
+NTN076	African American
+NTN004	African American
+H36960.014	Caucasian
+NTN013	African American
+NTN051	Caucasian
+NTN079	African American
