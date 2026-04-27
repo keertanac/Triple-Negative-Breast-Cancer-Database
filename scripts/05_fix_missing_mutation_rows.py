@@ -2,8 +2,8 @@ import re
 
 # Input/output files
 mutation_file = "/Users/keertanachagari/DB_project/2_split_sql/mutation.sql"
-gene_file = "/Users/keertanachagari/DB_project/2_split_sql/gene_deduped.sql"
-output_file = "/Users/keertanachagari/DB_project/2_split_sql/mutation_fixed.sql"
+gene_file = "/Users/keertanachagari/DB_project/2_split_sql/03_load_gene_table.sql"
+output_file = "/Users/keertanachagari/DB_project/2_split_sql/06_load_mutation_table.sql"
 
 # -------------------------------
 # Step 1: Extract valid gene IDs
