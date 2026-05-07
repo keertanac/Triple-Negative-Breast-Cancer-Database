@@ -30,8 +30,6 @@ CREATE TABLE Sample
     somatic_status VARCHAR(50),
     oncotree_code VARCHAR(10),
     treatment_status VARCHAR(20),
-    mutations_profile VARCHAR(20),
-    gistic_profile VARCHAR(10),
     FOREIGN KEY (patient_id) REFERENCES Patient(patient_id)
 );
 
