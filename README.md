@@ -15,7 +15,7 @@ Includes:
 
 Final dataset:
 - **59 patients**
-- **79 samples**
+- **75 samples**
 
 ---
 
