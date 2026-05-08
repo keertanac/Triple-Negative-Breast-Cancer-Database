@@ -65,14 +65,14 @@ The full pipeline is documented in:  `docs/script_execution_order.md`
 sudo dnf install mysql
 
 #use the following to create the schema, assuming your shared folder is named sf_database:
-mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/01_create_schema.sql
+mysql -h 127.0.0.1 -P 3306 -u root -pinstructor TripleNegativeBreastCancer < /media/sf_database/01_create_schema.sql
 ```
 
 4. Follow instructions outlined in `docs/script_execution_order.md` to generate SQL load files
 5. Populate tables (example for Gene table):
 
 ```bash
-mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/03_load_gene_table.sql
+mysql -h 127.0.0.1 -P 3306 -u root -pinstructor TripleNegativeBreastCancer < /media/sf_database/03_load_gene_table.sql
 ```
 6. Test the data by running queries in `sql/queries/queries.sql`
 
