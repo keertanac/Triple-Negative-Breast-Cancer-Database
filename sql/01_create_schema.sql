@@ -36,7 +36,7 @@ CREATE TABLE Sample
 CREATE TABLE Gene
 (
     entrez_gene_id INT UNSIGNED PRIMARY KEY,
-    hugo_symbol VARCHAR(20) UNIQUE,
+    hugo_symbol VARCHAR(20),
     chromosome VARCHAR(5)
 );
 
