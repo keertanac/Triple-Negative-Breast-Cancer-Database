@@ -1,43 +1,69 @@
 import re
 
+# =========================================================
+# INPUT / OUTPUT FILES
+# =========================================================
 input_file = "gene.sql"
 output_file = "03_load_gene_table.sql"
 
-seen = set()
+# =========================================================
+# READ ENTIRE FILE
+# =========================================================
+with open(input_file, "r") as f:
+    content = f.read()
+
+# =========================================================
+# STRICT ROW EXTRACTION
+# =========================================================
+rows = re.findall(
+    r"\(\s*([0-9]+(?:\.[0-9]+)?)\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*\)",
+    content
+)
+
+print(f"🔎 Rows found: {len(rows)}")
+
+# =========================================================
+# REMOVE TRUE DUPLICATE ENTREZ IDS
+# =========================================================
+seen_ids = set()
 kept_rows = []
 
-with open(input_file, "r") as f:
-    lines = f.readlines()
+for raw_entrez, hugo_symbol, chromosome in rows:
 
-insert_prefix = None
+    # normalize numeric ID
+    entrez_id = str(int(float(raw_entrez)))
 
-for line in lines:
-    stripped = line.strip()
+    if entrez_id not in seen_ids:
 
-    if stripped.startswith("INSERT INTO Gene"):
-        insert_prefix = stripped
-        continue
+        seen_ids.add(entrez_id)
 
-    if not stripped or stripped.startswith("--"):
-        continue
+        kept_rows.append(
+            (
+                entrez_id,
+                hugo_symbol.strip(),
+                chromosome.strip()
+            )
+        )
 
-    m = re.match(r"^\(([^,]+),\s*'([^']+)',\s*'([^']+)'\)\s*[;,]?$", stripped)
-    if not m:
-        continue
-
-    entrez_id = m.group(1).strip()
-    hugo_symbol = m.group(2).strip()
-    chromosome = m.group(3).strip()
-
-    if hugo_symbol not in seen:
-        seen.add(hugo_symbol)
-        kept_rows.append((entrez_id, hugo_symbol, chromosome))
-
+# =========================================================
+# WRITE CLEANED SQL
+# =========================================================
 with open(output_file, "w") as f:
-    f.write("INSERT INTO Gene (entrez_gene_id, hugo_symbol, chromosome) VALUES\n")
-    for i, (entrez_id, hugo_symbol, chromosome) in enumerate(kept_rows):
-        ending = "," if i < len(kept_rows) - 1 else ";"
-        f.write(f"({entrez_id}, '{hugo_symbol}', '{chromosome}'){ending}\n")
 
-print(f"Kept {len(kept_rows)} unique hugo_symbol rows.")
-print(f"Wrote deduplicated file to {output_file}")
+    f.write(
+        "INSERT INTO Gene "
+        "(entrez_gene_id, hugo_symbol, chromosome) VALUES\n"
+    )
+
+    for i, (entrez_id, hugo_symbol, chromosome) in enumerate(kept_rows):
+
+        ending = "," if i < len(kept_rows) - 1 else ";"
+
+        f.write(
+            f"({entrez_id}, "
+            f"'{hugo_symbol}', "
+            f"'{chromosome}'){ending}\n"
+        )
+
+print(f"✅ Final unique gene IDs: {len(kept_rows)}")
+print("🎉 Finished successfully")
