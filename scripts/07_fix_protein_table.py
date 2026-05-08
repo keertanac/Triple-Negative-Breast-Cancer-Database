@@ -1,132 +1,86 @@
 import re
 
-# =========================================================
-# FILE PATHS
-# =========================================================
-GENE_SQL = "/Users/keertanachagari/DB_project/sql/03_load_gene_table.sql"
+# --- File paths (update these if needed) ---
+GENE_SQL = "03_load_gene_table.sql"
+PROTEIN_SQL = "protein_quant.sql"
+OUTPUT_SQL = "09_load_protein_table.sql"
 
-# giant protein file
-PROTEIN_SQL = "/Users/keertanachagari/DB_project/sql/protein_quant.sql"
-
-# cleaned + split output
-OUTPUT_SQL = "/Users/keertanachagari/DB_project/sql/09_load_protein_quant_table.sql"
-
-# rows per INSERT batch
-BATCH_SIZE = 500
-
-# =========================================================
-# STEP 1 — LOAD VALID GENE SYMBOLS
-# =========================================================
+# Step 1: Parse all valid hugo_symbols from gene_deduped.sql
 valid_genes = set()
-
 gene_pattern = re.compile(r"^\(([^,]+),\s*'([^']+)'")
 
-with open(GENE_SQL, "r") as f:
+with open(GENE_SQL, 'r') as f:
     for line in f:
-        line = line.strip().rstrip(",").rstrip(";")
-
+        line = line.strip().rstrip(',').rstrip(';')
         match = gene_pattern.match(line)
-
         if match:
             entrez_id = match.group(1).strip()
             hugo_symbol = match.group(2).strip()
-
-            if entrez_id.upper() != "NULL":
+            if entrez_id.upper() != 'NULL':
                 valid_genes.add(hugo_symbol)
 
-print(f"✅ Valid genes loaded: {len(valid_genes)}")
+print(f"Valid genes found in Gene table: {len(valid_genes)}")
 
-# =========================================================
-# STEP 2 — READ ENTIRE PROTEIN SQL FILE
-# =========================================================
-with open(PROTEIN_SQL, "r") as f:
-    content = f.read()
-
-# =========================================================
-# STEP 3 — EXTRACT INSERT HEADER
-# =========================================================
-header_match = re.search(
-    r"(INSERT INTO\s+Protein_quant\s*\(.*?\)\s*VALUES)",
-    content,
-    re.DOTALL | re.IGNORECASE
-)
-
-if not header_match:
-    raise ValueError("❌ Could not find INSERT header")
-
-header = header_match.group(1)
-
-# =========================================================
-# STEP 4 — EXTRACT ONLY VALUES SECTION
-# =========================================================
-values_section = content.split("VALUES", 1)[1]
-
-# remove trailing semicolon
-values_section = values_section.strip().rstrip(";")
-
-# =========================================================
-# STEP 5 — SPLIT ROWS
-# =========================================================
-rows = re.split(r"\),\s*\(", values_section)
-
-# clean first and last rows
-rows[0] = rows[0].lstrip("(")
-rows[-1] = rows[-1].rstrip(")")
-
-clean_rows = [r.strip() for r in rows if r.strip()]
-
-print(f"✅ Total rows found: {len(clean_rows)}")
-
-# =========================================================
-# STEP 6 — FILTER ROWS BY VALID hugo_symbol
-# =========================================================
+# Step 2: Parse protein_quant SQL into batches, filter rows, rewrite cleanly
 hugo_pattern = re.compile(r"hugo_symbol='([^']+)'")
-
-filtered_rows = []
 
 kept = 0
 removed = 0
 
-for row in clean_rows:
+with open(PROTEIN_SQL, 'r') as f_in, open(OUTPUT_SQL, 'w') as f_out:
+    current_batch = []   # holds valid data lines for the current INSERT batch
+    in_batch = False
 
-    match = hugo_pattern.search(row)
-
-    # if no hugo_symbol exists, keep row just in case
-    if not match:
-        filtered_rows.append(row)
-        kept += 1
-        continue
-
-    symbol = match.group(1)
-
-    if symbol in valid_genes:
-        filtered_rows.append(row)
-        kept += 1
-    else:
-        removed += 1
-
-print(f"✅ Rows kept:    {kept}")
-print(f"❌ Rows removed: {removed}")
-
-# =========================================================
-# STEP 7 — WRITE CLEANED + BATCHED OUTPUT
-# =========================================================
-with open(OUTPUT_SQL, "w") as f:
-
-    for i in range(0, len(filtered_rows), BATCH_SIZE):
-
-        batch = filtered_rows[i:i+BATCH_SIZE]
-
-        f.write(header + "\n")
-
-        for j, row in enumerate(batch):
-
-            clean = row.strip().rstrip(",").rstrip(";")
-
-            if j < len(batch) - 1:
-                f.write(f"({clean}),\n")
+    def flush_batch(f_out, batch):
+        """Write a complete INSERT block from a list of value lines."""
+        if not batch:
+            return
+        f_out.write("INSERT INTO Protein_quant (sample_id, entrez_gene_id, abundance, zscore) VALUES\n")
+        for i, row in enumerate(batch):
+            # Strip any existing trailing comma/semicolon, then add correct punctuation
+            clean = row.rstrip().rstrip(',').rstrip(';')
+            if i < len(batch) - 1:
+                f_out.write(clean + ',\n')
             else:
-                f.write(f"({clean});\n\n")
+                f_out.write(clean + ';\n')
+        f_out.write('\n')
 
-print("✅ Finished writing cleaned batched SQL file")
-print(f"📄 Output file: {OUTPUT_SQL}")
+    for line in f_in:
+        stripped = line.strip()
+
+        # Comment lines — pass through
+        if stripped.startswith('--'):
+            f_out.write(line)
+            continue
+
+        # Blank lines — pass through
+        if not stripped:
+            f_out.write(line)
+            continue
+
+        # New INSERT statement — flush previous batch and start a new one
+        if stripped.upper().startswith('INSERT'):
+            flush_batch(f_out, current_batch)
+            current_batch = []
+            in_batch = True
+            continue  # We'll rewrite the INSERT header ourselves in flush_batch
+
+        # Data row — filter by hugo_symbol
+        if in_batch:
+            match = hugo_pattern.search(stripped)
+            if match:
+                symbol = match.group(1)
+                if symbol in valid_genes:
+                    current_batch.append(stripped)
+                    kept += 1
+                else:
+                    removed += 1
+            else:
+                current_batch.append(stripped)  # keep non-gene rows just in case
+
+    # Flush the final batch
+    flush_batch(f_out, current_batch)
+
+print(f"Rows kept:    {kept}")
+print(f"Rows removed: {removed}")
+print(f"Output written to: {OUTPUT_SQL}")
