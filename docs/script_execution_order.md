@@ -19,7 +19,7 @@ Run 01_clean_data.py in the same directory as the raw downloaded data to clean r
 
 3)Table creation
 - Create a new database on phpMyAdmin and name it TripleNegativeBreastCancer
-- Run 01_clean_schema.sql on phpMyAdmin to generate the tables for the database
+- Run 01_clean_schema.sql on phpMyAdmin or terminal to generate the tables for the database
 
 
 4)Create .sql file for populating the entire database
