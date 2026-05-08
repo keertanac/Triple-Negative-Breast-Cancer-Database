@@ -22,7 +22,7 @@ Final dataset:
 ## Database Schema
 
 ### Core Tables
-Full ER diagram is in `diagram/final_er_diagram.png`
+Full ER diagram: `diagrams/final_er_diagram.png`
 - **Patient** → patient-level information  
 - **Sample** → information for each individual sample  
 - **Gene** → reference table for gene identifiers  
@@ -57,8 +57,8 @@ The full pipeline is documented in:  `docs/script_execution_order.md`
 ## How to Run
 
 1. Clean data by running 01_clean_data.py
-2. Create and name a new database (TripleNegativeBreastcancer) in phpMyAdmin
-3. Create schema for creating the tables by uploading 01_create_schema.sql directly into phpMyAdmin or by running the following in a VirtualMachine terminal:
+2. Create and name a new database ('TripleNegativeBreastCancer') in phpMyAdmin
+3. Create the schema by uploading 01_create_schema.sql directly into phpMyAdmin or by running:
 
 ```bash
 #install mysql
@@ -68,14 +68,13 @@ sudo dnf install mysql
 mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/01_create_schema.sql
 ```
 
-4. Follow instructions outlined in `docs/script_execution_order.md` for generating SQL load files per table
-6. Populate on the terminal:
+4. Follow instructions outlined in `docs/script_execution_order.md` to generate SQL load files
+5. Populate tables (example for Gene table):
 
 ```bash
-#Example for populating Gene table:
 mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/03_load_gene_table.sql
 ```
-7. Test the data by running DQL queries in `sql/queries/queries.sql`
+6. Test the data by running queries in `sql/queries/queries.sql`
 
 ---
 
@@ -88,4 +87,4 @@ mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/03_load_gen
 ---
 
 ## Future Work
-- Integrate Neo4j to explore relationships among the data
+- Integrate Neo4j to explore relationships within the data
