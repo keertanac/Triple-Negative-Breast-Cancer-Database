@@ -2,14 +2,14 @@
 
 CREATE TABLE Patient
 (
-    patient_id VARCHAR(50) AUTO_INCREMENT PRIMARY KEY,
+    patient_id VARCHAR(50) PRIMARY KEY,
     race VARCHAR(100)
 );
 
 CREATE TABLE Sample
 (
     sample_id VARCHAR(50) PRIMARY KEY,
-    patient_id INT UNSIGNED NOT NULL,
+    patient_id VARCHAR(50) NOT NULL,
     pCR_response VARCHAR(100),
     collection_event VARCHAR(50),
     pam50_subtype VARCHAR(50),
