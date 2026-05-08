@@ -32,6 +32,7 @@ Limitation of populating at once: time consuming and hard to troubleshoot
 
 5)Split populating so it is done one table at a time
 - Run 03_split_sql_by_table.py to generate seperate .sql files per table to run one at a time
+
 Should get these files:
 - gene.sql
 - patient.sql (manually renamed to 04_load_patient_table.sql)
