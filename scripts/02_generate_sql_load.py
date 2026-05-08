@@ -16,7 +16,7 @@ protein_file = base / "cleaned_data_protein_quantification.txt"
 protein_z_file = base / "cleaned_data_protein_quantification_zscores.txt"
 gene_panel_file = base / "cleaned_data_gene_panel_matrix.txt"
 
-output_sql = Path.home() / "Desktop" / "02_load_full_database.sql"
+output_sql = Path.home() / "Downloads" / "02_load_full_database.sql"
 
 # ==============================
 # 2. HELPERS
