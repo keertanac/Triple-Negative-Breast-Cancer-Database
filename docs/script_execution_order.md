@@ -35,8 +35,8 @@ Limitation of populating at once: time consuming and hard to troubleshoot
 
 Should get these files:
 - gene.sql
-- patient.sql (manually renamed to 04_load_patient_table.sql)
-- sample.sql (manually renamed to 05_load_sample_table.sql)
+- patient.sql (manually renamed to 04_load_patient_table.sql for documentation consistency purposes)
+- sample.sql (manually renamed to 05_load_sample_table.sql for documentation consistency purposes)
 - mutation.sql
 - protein_quant.sql
 - mrna_expression.sql
