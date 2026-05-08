@@ -50,7 +50,7 @@ The full pipeline is documented in:  `docs/script_execution_order.md`
 3. Create database schema (MySQL)
 4. Generate SQL insert statements
 5. Load data (split by table for debugging)
-6. Validate data using SQL queries
+6. Validate data using DQL queries
 
 ---
 
@@ -58,7 +58,7 @@ The full pipeline is documented in:  `docs/script_execution_order.md`
 
 1. Clean data by running 01_clean_data.py
 2. Create and name a new database (TripleNegativeBreastcancer) in phpMyAdmin
-3. Create schema for creating the tables by uploading 01_create_schema.sql directly into phpMyAdmin or by running the following in terminal:
+3. Create schema for creating the tables by uploading 01_create_schema.sql directly into phpMyAdmin or by running the following in a VirtualMachine terminal:
 
 ```bash
 #install mysql
@@ -73,5 +73,19 @@ mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/01_create_s
 
 ```bash
 #Example for populating Gene table:
-mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/
+mysql -h 127.0.0.1 -P 3306 -u root -pinstructor < /media/sf_database/03_load_gene_table.sql
+```
+7. Test the data by running DQL queries in `sql/queries/queries.sql`
 
+---
+
+## Project Documentation
+- Data Dictionary --> `docs/data_dictionary.md`
+- Decisions and Limitations --> `docs/decisions_and_limitations.md`
+- Execution Workflow --> `docs/script_execution_order.md`
+- Full Write-Up --> `docs/project_writeup.pdf`
+
+---
+
+## Future Work
+- Integrate Neo4j to explore relationships among the data
